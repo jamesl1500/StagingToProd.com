@@ -4,6 +4,8 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+packageExtensionsChecksum: sha256-NmqCHYlI1gdR1v5vFaXkYV7qIcDwjlycCMxlCbrsAP8=
+
 importers:
 
   .:
@@ -6483,6 +6485,7 @@ snapshots:
       '@payloadcms/translations': 3.90.2
       '@swc/helpers': 0.5.23
       bson-objectid: 2.0.4
+      clsx: 2.1.1
       date-fns: 4.1.0
       dequal: 2.0.3
       md5: 2.3.0

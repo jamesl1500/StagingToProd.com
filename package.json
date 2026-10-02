@@ -61,6 +61,13 @@
     "pnpm": "^9 || ^10 || ^11"
   },
   "pnpm": {
+    "packageExtensions": {
+      "@payloadcms/ui": {
+        "dependencies": {
+          "clsx": "^2.1.1"
+        }
+      }
+    },
     "onlyBuiltDependencies": [
       "sharp",
       "esbuild",
