@@ -1,0 +1,73 @@
+@use 'tokens' as *;
+
+// Long-form lesson and course text.
+.prose {
+  max-width: 72ch;
+  color: #e5e5e5;
+  font-size: 17px;
+  line-height: 1.75;
+
+  > * + * {
+    margin-top: $space-4;
+  }
+
+  h2,
+  h3,
+  h4 {
+    margin-top: $space-7;
+    color: $fg;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  h3 {
+    font-size: 22px;
+  }
+
+  a {
+    text-underline-offset: 3px;
+
+    &:hover {
+      background: $fg;
+      color: $bg;
+      text-decoration: none;
+    }
+  }
+
+  ul,
+  ol {
+    padding-left: $space-5;
+  }
+
+  li + li {
+    margin-top: $space-2;
+  }
+
+  blockquote {
+    margin-left: 0;
+    padding-left: $space-4;
+    border-left: 2px solid $border-strong;
+    color: $muted;
+  }
+
+  // Inline code (block code is styled by CodeBlock).
+  :not(pre) > code {
+    padding: 1px 6px;
+    border: $border-width solid $border;
+    background: $surface;
+    font-size: 0.9em;
+  }
+
+  hr {
+    border: 0;
+    border-top: $border-width solid $border;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border: $border-width solid $border;
+  }
+}

@@ -1,0 +1,125 @@
+@use 'tokens' as *;
+
+.outline {
+  border: $border-width solid $border;
+}
+
+.module + .module {
+  border-top: $border-width solid $border;
+}
+
+.moduleHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: $space-3;
+  padding: $space-4 $space-5;
+  background: $surface;
+}
+
+.moduleTitle {
+  font-size: 17px;
+}
+
+.moduleMeta {
+  @include mono-label;
+  color: $muted;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.moduleSummary {
+  padding: 0 $space-5 $space-3;
+  background: $surface;
+  color: $muted;
+  font-size: 14px;
+}
+
+.lessons {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lesson {
+  border-top: $border-width solid $border;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: $space-3;
+  padding: $space-3 $space-5;
+  text-decoration: none;
+  transition: background-color $transition;
+
+  &:hover {
+    background: #111;
+  }
+}
+
+.current {
+  background: $fg;
+  color: $bg;
+
+  &:hover {
+    background: $fg;
+  }
+
+  .num,
+  .duration {
+    color: $bg;
+  }
+}
+
+.num {
+  font-family: $font-mono;
+  font-size: 12px;
+  color: $muted;
+}
+
+.lessonTitle {
+  font-size: 15px;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.duration {
+  font-family: $font-mono;
+  font-size: 12px;
+  color: $muted;
+}
+
+.lock {
+  font-family: $font-mono;
+  font-size: 12px;
+  color: $muted;
+}
+
+// Compact variant used in the lesson sidebar.
+.compact {
+  .moduleHead {
+    padding: $space-3 $space-4;
+  }
+
+  .moduleTitle {
+    font-size: 14px;
+  }
+
+  .moduleSummary {
+    display: none;
+  }
+
+  .row {
+    padding: $space-2 $space-4;
+  }
+
+  .lessonTitle {
+    font-size: 14px;
+  }
+}

@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
   sassOptions: {
     loadPaths: [path.resolve(dirname, 'src/styles')],
   },
+  experimental: {
+    // The site and Payload admin each have a root layout, so unmatched URLs need app/global-not-found.tsx.
+    globalNotFound: true,
+  },
   images: {
     localPatterns: [
       {

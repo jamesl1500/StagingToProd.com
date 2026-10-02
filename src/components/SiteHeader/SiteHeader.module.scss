@@ -37,7 +37,12 @@
 
 .nav {
   display: flex;
-  gap: $space-5;
+  align-items: center;
+  gap: $space-4;
+
+  @include up($bp-sm) {
+    gap: $space-5;
+  }
 }
 
 .link {
@@ -47,5 +52,35 @@
 
   &:hover {
     color: $fg;
+  }
+}
+
+.search {
+  display: none;
+  flex: 1;
+  max-width: 320px;
+  margin: 0 $space-5;
+
+  @include up($bp-md) {
+    display: block;
+  }
+}
+
+.searchLink {
+  @include up($bp-md) {
+    display: none;
+  }
+}
+
+.account {
+  @include mono-label;
+  padding: 6px $space-3;
+  border: $border-width solid $border-strong;
+  text-decoration: none;
+
+  &:hover {
+    border-color: $fg;
+    background: $fg;
+    color: $bg;
   }
 }

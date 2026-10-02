@@ -1,0 +1,52 @@
+@use 'tokens' as *;
+
+.block {
+  margin: $space-5 0;
+  border: $border-width solid $border-strong;
+  background: $surface;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-2 $space-3;
+  border-bottom: $border-width solid $border;
+}
+
+.lang {
+  @include mono-label;
+  color: $muted;
+  font-size: 11px;
+}
+
+.code {
+  overflow-x: auto;
+  font-size: 14px;
+  line-height: 1.7;
+
+  :global(pre) {
+    margin: 0;
+    padding: $space-4;
+    background: transparent !important;
+  }
+
+  :global(code) {
+    font-family: $font-mono;
+  }
+}
+
+.copy {
+  @include mono-label;
+  padding: 2px $space-2;
+  border: $border-width solid $border;
+  background: transparent;
+  color: $muted;
+  font-size: 11px;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $fg;
+    color: $fg;
+  }
+}

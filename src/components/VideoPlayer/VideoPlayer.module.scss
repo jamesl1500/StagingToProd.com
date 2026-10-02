@@ -1,0 +1,12 @@
+@use 'tokens' as *;
+
+.frame {
+  border: $border-width solid $border-strong;
+  background: #000;
+}
+
+.player {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}

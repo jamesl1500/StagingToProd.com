@@ -1,0 +1,209 @@
+@use 'tokens' as *;
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $space-6;
+  padding-top: $space-6;
+
+  @include up($bp-md) {
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: $space-7;
+    align-items: start;
+  }
+}
+
+.sidebar {
+  display: grid;
+  gap: $space-3;
+
+  @include up($bp-md) {
+    position: sticky;
+    top: 88px;
+    max-height: calc(100vh - 112px);
+    overflow-y: auto;
+  }
+}
+
+.sidebarHead {
+  display: grid;
+  gap: $space-1;
+  padding-bottom: $space-2;
+
+  a {
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.progress {
+  @include mono-label;
+  color: $muted;
+  font-size: 11px;
+}
+
+// On small screens the outline collapses behind a <details>.
+.mobileOutline {
+  @include up($bp-md) {
+    display: none;
+  }
+
+  summary {
+    @include mono-label;
+    padding: $space-3 $space-4;
+    border: $border-width solid $border-strong;
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::after {
+      content: ' [+]';
+      color: $muted;
+    }
+  }
+
+  &[open] summary::after {
+    content: ' [-]';
+  }
+}
+
+.desktopOutline {
+  display: none;
+
+  @include up($bp-md) {
+    display: block;
+  }
+}
+
+.main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $space-5;
+  min-width: 0;
+}
+
+.header {
+  display: grid;
+  gap: $space-3;
+}
+
+.eyebrow {
+  @include mono-label;
+  color: $muted;
+}
+
+.title {
+  font-size: clamp(30px, 4.5vw, 48px);
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-2;
+}
+
+.summary {
+  max-width: 64ch;
+  color: $muted;
+  font-size: 18px;
+}
+
+.locked {
+  display: grid;
+  gap: $space-4;
+  justify-items: start;
+  padding: $space-7 $space-6;
+  border: $border-width solid $border-strong;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0,
+      transparent 12px,
+      rgb(255 255 255 / 3%) 12px,
+      rgb(255 255 255 / 3%) 13px
+    ),
+    $surface;
+}
+
+.lockedLabel {
+  @include mono-label;
+  color: $muted;
+}
+
+.lockedTitle {
+  font-size: 24px;
+}
+
+.lockedText {
+  max-width: 52ch;
+  color: $muted;
+}
+
+.lockedActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-3;
+}
+
+.noVideo {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  border: $border-width dashed $border-strong;
+  color: $muted;
+  font-family: $font-mono;
+  font-size: 14px;
+}
+
+.pager {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-top: $space-6;
+  border: $border-width solid $border;
+
+  @include up($bp-sm) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.pagerLink {
+  display: grid;
+  gap: $space-1;
+  padding: $space-4 $space-5;
+  text-decoration: none;
+  transition: background-color $transition;
+
+  &:hover {
+    background: #111;
+  }
+
+  span {
+    @include mono-label;
+    color: $muted;
+    font-size: 11px;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+}
+
+.next {
+  text-align: right;
+
+  @include up($bp-sm) {
+    border-left: $border-width solid $border;
+  }
+}
+
+.pagerEmpty {
+  padding: $space-4 $space-5;
+}

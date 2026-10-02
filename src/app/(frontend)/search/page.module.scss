@@ -1,0 +1,97 @@
+@use 'tokens' as *;
+
+.count {
+  @include mono-label;
+  padding: $space-5 0 0;
+  color: $muted;
+}
+
+.section {
+  padding: $space-5 0 $space-6;
+}
+
+.heading {
+  display: flex;
+  align-items: baseline;
+  gap: $space-3;
+  margin-bottom: $space-4;
+  font-size: 22px;
+
+  span {
+    @include mono-label;
+    color: $muted;
+  }
+}
+
+.lessons {
+  border: $border-width solid $border;
+  list-style: none;
+
+  li + li {
+    border-top: $border-width solid $border;
+  }
+}
+
+.lesson {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: start;
+  gap: $space-4;
+  padding: $space-4;
+  text-decoration: none;
+
+  &:hover {
+    background: $surface;
+
+    .title {
+      text-decoration: underline;
+    }
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.index {
+  @include mono-label;
+  padding-top: 2px;
+  color: $muted;
+}
+
+.body {
+  display: grid;
+  gap: $space-1;
+  min-width: 0;
+}
+
+.course {
+  @include mono-label;
+  color: $muted;
+}
+
+.title {
+  font-family: $font-display;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.summary {
+  color: $muted;
+  font-size: 14px;
+}
+
+.empty {
+  display: grid;
+  gap: $space-3;
+  margin: $space-6 0;
+  padding: $space-7 $space-5;
+  border: $border-width dashed $border-strong;
+  color: $muted;
+  font-family: $font-mono;
+  font-size: 14px;
+}
+
+.link {
+  color: $fg;
+}

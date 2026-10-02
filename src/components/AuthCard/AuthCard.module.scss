@@ -1,0 +1,118 @@
+@use 'tokens' as *;
+
+.wrap {
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - 160px);
+  padding: $space-8 $space-4;
+}
+
+.card {
+  display: grid;
+  gap: $space-5;
+  width: 100%;
+  max-width: 440px;
+  padding: $space-6;
+  border: $border-width solid $border-strong;
+  background: $surface;
+}
+
+.eyebrow {
+  @include mono-label;
+  color: $muted;
+}
+
+.title {
+  font-size: 32px;
+}
+
+.lead {
+  color: $muted;
+}
+
+.github {
+  width: 100%;
+}
+
+.divider {
+  @include mono-label;
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  color: $muted;
+  font-size: 11px;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    border-top: $border-width solid $border;
+  }
+}
+
+.form {
+  display: grid;
+  gap: $space-3;
+}
+
+.label {
+  @include mono-label;
+  color: $muted;
+  font-size: 11px;
+}
+
+.input {
+  width: 100%;
+  height: 44px;
+  padding: 0 $space-3;
+  border: $border-width solid $border-strong;
+  border-radius: 0;
+  background: $bg;
+  color: $fg;
+  font-family: $font-mono;
+  font-size: 14px;
+
+  &:focus {
+    border-color: $fg;
+    outline: none;
+  }
+}
+
+.submit {
+  width: 100%;
+}
+
+.error {
+  padding: $space-2 $space-3;
+  border: $border-width dashed $fg;
+  font-family: $font-mono;
+  font-size: 13px;
+}
+
+.sent {
+  display: grid;
+  gap: $space-3;
+  padding: $space-4;
+  border: $border-width solid $fg;
+  font-size: 15px;
+
+  strong {
+    font-family: $font-mono;
+  }
+}
+
+.footer {
+  padding-top: $space-3;
+  border-top: $border-width solid $border;
+  color: $muted;
+  font-size: 14px;
+
+  a {
+    color: $fg;
+  }
+}
+
+.fine {
+  color: $muted;
+  font-size: 12px;
+}

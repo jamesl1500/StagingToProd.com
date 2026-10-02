@@ -76,42 +76,6 @@
   font-size: 28px;
 }
 
-.count {
-  @include mono-label;
-  color: $muted;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  border-top: $border-width solid $border;
-  border-left: $border-width solid $border;
-
-  @include up($bp-sm) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @include up($bp-md) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.card {
-  display: grid;
-  align-content: start;
-  gap: $space-3;
-  min-height: 220px;
-  padding: $space-5;
-  border-right: $border-width solid $border;
-  border-bottom: $border-width solid $border;
-  background: $surface;
-  transition: background-color $transition;
-
-  &:hover {
-    background: #111;
-  }
-}
-
 .cardIndex {
   @include mono-label;
   color: $muted;
@@ -124,21 +88,6 @@
 .cardSummary {
   color: $muted;
   font-size: 15px;
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: $space-2;
-  margin-top: auto;
-  padding-top: $space-3;
-}
-
-.tag {
-  @include mono-label;
-  padding: 2px $space-2;
-  border: $border-width solid $border-strong;
-  font-size: 11px;
 }
 
 .steps {

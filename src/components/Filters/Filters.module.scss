@@ -1,0 +1,44 @@
+@use 'tokens' as *;
+
+.filters {
+  display: grid;
+  gap: $space-3;
+}
+
+.group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-2;
+}
+
+.label {
+  @include mono-label;
+  width: 88px;
+  color: $muted;
+  font-size: 11px;
+}
+
+.chip {
+  @include mono-label;
+  padding: 4px $space-3;
+  border: $border-width solid $border;
+  color: $muted;
+  font-size: 11px;
+  text-decoration: none;
+
+  &:hover {
+    border-color: $fg;
+    color: $fg;
+  }
+}
+
+.active {
+  border-color: $fg;
+  background: $fg;
+  color: $bg;
+
+  &:hover {
+    color: $bg;
+  }
+}
