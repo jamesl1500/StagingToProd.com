@@ -82,7 +82,7 @@ export default async function CoursePage({ params }: Props) {
 
   return (
     <Container>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />
 
       <section className={styles.hero}>
         <div className={styles.intro}>

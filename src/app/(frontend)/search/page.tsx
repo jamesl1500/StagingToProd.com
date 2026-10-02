@@ -8,15 +8,16 @@ import { PageHeader } from '@/components/PageHeader'
 import { SearchForm } from '@/components/SearchForm'
 import { getCourses, searchLessons } from '@/lib/content'
 import { pad } from '@/lib/format'
+import { firstParam, type SearchParams } from '@/lib/params'
 
 import styles from './page.module.scss'
 
 export const dynamic = 'force-dynamic'
 
-type Props = { searchParams: Promise<{ q?: string }> }
+type Props = { searchParams: SearchParams }
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const q = (await searchParams).q?.trim()
+  const q = firstParam((await searchParams).q)?.trim()
   return {
     title: q ? `Search: ${q}` : 'Search',
     // Result pages are thin and endless; keep them out of the index.
@@ -25,7 +26,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 }
 
 export default async function SearchPage({ searchParams }: Props) {
-  const q = (await searchParams).q?.trim().slice(0, 100) || ''
+  const q = firstParam((await searchParams).q)?.trim().slice(0, 100) || ''
 
   const [courses, lessons] = q
     ? await Promise.all([getCourses({ q }, 12), searchLessons(q, 30)])
