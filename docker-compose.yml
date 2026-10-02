@@ -1,0 +1,16 @@
+# Local Postgres for development. Point DATABASE_URL at it:
+# DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/stagingtoprod
+services:
+  postgres:
+    image: postgres:17-alpine
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: stagingtoprod
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
