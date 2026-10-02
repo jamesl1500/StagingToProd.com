@@ -3,7 +3,7 @@
 import { redirect } from 'next/navigation'
 
 import { AVATAR_BUCKET, isOwnAvatarPath } from '@/lib/profile/avatar'
-import { isExperience, isGoal, limits } from '@/lib/profile/options'
+import { goalOptions, isExperience, isGoal, limits } from '@/lib/profile/options'
 import { getLearner, safeNext } from '@/lib/supabase/auth'
 import { createClient } from '@/lib/supabase/server'
 
@@ -37,7 +37,7 @@ export async function saveProfile(_prev: StepState, formData: FormData): Promise
   if (Object.keys(fieldErrors).length) return { status: 'error', fieldErrors }
 
   const supabase = await createClient()
-  const { data: previous } = await supabase.from('profiles').select('avatar_path').eq('id', learner.id).maybeSingle()
+  const { data: previous } = await supabase.from('profiles').select('avatar_path, onboarded_at').eq('id', learner.id).maybeSingle()
 
   const { error } = await supabase.from('profiles').upsert({
     id: learner.id,
@@ -53,6 +53,8 @@ export async function saveProfile(_prev: StepState, formData: FormData): Promise
     await supabase.storage.from(AVATAR_BUCKET).remove([oldPath])
   }
 
+  // Editing from the account page saves and goes straight back.
+  if (previous?.onboarded_at) redirect(next)
   redirect(`/onboarding?step=goals&next=${encodeURIComponent(next)}`)
 }
 
@@ -61,7 +63,8 @@ export async function saveGoals(_prev: StepState, formData: FormData): Promise<S
   const learner = await requireLearner()
   const next = safeNext(text(formData, 'next'), '/courses')
   const experience = text(formData, 'experience')
-  const goals = [...new Set(formData.getAll('goals').map(String))]
+  const order = goalOptions.map((g) => g.value as string)
+  const goals = [...new Set(formData.getAll('goals').map(String))].sort((a, b) => order.indexOf(a) - order.indexOf(b))
   const goalNote = text(formData, 'goal_note')
 
   const fieldErrors: StepState['fieldErrors'] = {}

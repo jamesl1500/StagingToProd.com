@@ -66,8 +66,9 @@ export default async function OnboardingPage({ searchParams }: { searchParams: S
       <div className={styles.layout}>
         <header className={styles.intro}>
           <p className={styles.eyebrow}>
-            [{String(index + 1).padStart(2, '0')}/{String(steps.length).padStart(2, '0')}]{' '}
-            {editing && step !== 'done' ? 'edit profile' : 'onboarding'}
+            {editing && step !== 'done'
+              ? '[me] edit profile'
+              : `[${String(index + 1).padStart(2, '0')}/${String(steps.length).padStart(2, '0')}] onboarding`}
           </p>
           <h1 className={styles.title}>{editing && editTitle ? editTitle : title}</h1>
           <p className={styles.lead}>{lead}</p>
@@ -93,6 +94,7 @@ export default async function OnboardingPage({ searchParams }: { searchParams: S
             <ProfileStep
               userId={learner.id}
               next={next}
+              submitLabel={editing ? 'Save' : 'Continue'}
               defaults={{
                 displayName: profile?.display_name ?? learner.name ?? learner.email?.split('@')[0] ?? '',
                 bio: profile?.bio ?? '',
