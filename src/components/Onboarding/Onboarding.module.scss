@@ -40,7 +40,8 @@
 
 .steps {
   display: grid;
-  margin-top: $space-3;
+  margin: $space-3 0 0;
+  padding: 0;
   border: $border-width solid $border;
   list-style: none;
 }
