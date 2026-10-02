@@ -1,0 +1,71 @@
+@use 'tokens' as *;
+
+:root {
+  --color-bg: #000;
+  --color-surface: #0a0a0a;
+  --color-fg: #fff;
+  --color-muted: #8c8c8c;
+  --color-border: #262626;
+  --color-border-strong: #4d4d4d;
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background-color: $bg;
+  // Faint engineering grid behind everything.
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 4%) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 4%) 1px, transparent 1px);
+  background-size: 48px 48px;
+  color: $fg;
+  font-family: $font-display;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+code,
+pre,
+kbd {
+  font-family: $font-mono;
+}
+
+::selection {
+  background: $fg;
+  color: $bg;
+}
+
+:focus-visible {
+  @include focus-ring;
+}
