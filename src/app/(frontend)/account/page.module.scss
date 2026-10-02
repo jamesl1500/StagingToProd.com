@@ -55,3 +55,60 @@
   font-family: $font-mono;
   font-size: 14px;
 }
+
+.profile {
+  display: grid;
+  gap: $space-5;
+  margin-top: $space-6;
+  padding: $space-5;
+  border: $border-width solid $border-strong;
+  background: $surface;
+
+  @include up($bp-sm) {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  @include up($bp-md) {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: start;
+  }
+}
+
+.profileBody {
+  display: grid;
+  gap: $space-3;
+}
+
+.name {
+  font-size: 28px;
+}
+
+.bio {
+  max-width: 60ch;
+}
+
+.note {
+  color: $muted;
+  font-style: italic;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+}
+
+.profileActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+
+  @include up($bp-sm) {
+    grid-column: 2;
+  }
+
+  @include up($bp-md) {
+    grid-column: 3;
+    flex-direction: column;
+  }
+}
