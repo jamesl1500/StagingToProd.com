@@ -1,0 +1,51 @@
+@use 'tokens' as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: $border-width solid $border;
+  background: rgb(0 0 0 / 85%);
+  backdrop-filter: blur(8px);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: $container;
+  height: 64px;
+  margin: 0 auto;
+  padding: 0 $space-4;
+
+  @include up($bp-sm) {
+    padding: 0 $space-6;
+  }
+}
+
+.logo {
+  font-family: $font-mono;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+
+  span {
+    color: $muted;
+  }
+}
+
+.nav {
+  display: flex;
+  gap: $space-5;
+}
+
+.link {
+  @include mono-label;
+  color: $muted;
+  text-decoration: none;
+
+  &:hover {
+    color: $fg;
+  }
+}

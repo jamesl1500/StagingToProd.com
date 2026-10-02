@@ -1,13 +1,18 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { s3Storage } from '@payloadcms/storage-s3'
+import { muxVideoPlugin } from '@oversightstudio/mux-video'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
 import { Admins } from './collections/Admins'
+import { Authors } from './collections/Authors'
+import { Courses } from './collections/Courses'
+import { Lessons } from './collections/Lessons'
 import { Media } from './collections/Media'
+import { Modules } from './collections/Modules'
 import { migrations } from './migrations'
 
 const filename = fileURLToPath(import.meta.url)
@@ -24,6 +29,7 @@ const supabaseStorageEnabled = Boolean(
 export default buildConfig({
   admin: {
     user: Admins.slug,
+    theme: 'dark',
     importMap: {
       baseDir: path.resolve(dirname),
     },
@@ -31,7 +37,7 @@ export default buildConfig({
       titleSuffix: ' · StagingToProd Admin',
     },
   },
-  collections: [Admins, Media],
+  collections: [Courses, Modules, Lessons, Authors, Media, Admins],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -49,6 +55,20 @@ export default buildConfig({
   }),
   sharp,
   plugins: [
+    // Adds the Videos collection: upload straight from /admin to Mux; Mux calls /api/mux/webhook when ready.
+    // Always enabled so the schema is stable; uploads only work once the MUX_* keys are set.
+    muxVideoPlugin({
+      enabled: true,
+      initSettings: {
+        tokenId: process.env.MUX_TOKEN_ID || '',
+        tokenSecret: process.env.MUX_TOKEN_SECRET || '',
+        webhookSecret: process.env.MUX_WEBHOOK_SIGNING_SECRET || '',
+      },
+      uploadSettings: {
+        cors_origin: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000',
+      },
+      adminThumbnail: 'image',
+    }),
     s3Storage({
       enabled: supabaseStorageEnabled,
       collections: {

@@ -7,6 +7,10 @@ const __filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(__filename)
 
 const nextConfig: NextConfig = {
+  // Lets SCSS modules write `@use 'tokens' as *;`
+  sassOptions: {
+    loadPaths: [path.resolve(dirname, 'src/styles')],
+  },
   images: {
     localPatterns: [
       {

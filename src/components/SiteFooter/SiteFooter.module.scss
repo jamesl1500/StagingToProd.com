@@ -1,0 +1,21 @@
+@use 'tokens' as *;
+
+.footer {
+  border-top: $border-width solid $border;
+}
+
+.inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: $space-3;
+  max-width: $container;
+  margin: 0 auto;
+  padding: $space-6 $space-4;
+  color: $muted;
+  @include mono-label;
+
+  @include up($bp-sm) {
+    padding: $space-6;
+  }
+}

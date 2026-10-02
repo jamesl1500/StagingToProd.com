@@ -1,0 +1,48 @@
+// Design tokens: black-and-white techno. Values live in CSS custom properties (see globals.scss);
+// these SCSS aliases keep module files short.
+
+$bg: var(--color-bg);
+$surface: var(--color-surface);
+$fg: var(--color-fg);
+$muted: var(--color-muted);
+$border: var(--color-border);
+$border-strong: var(--color-border-strong);
+
+$font-display: var(--font-display);
+$font-mono: var(--font-mono);
+
+$space-1: 4px;
+$space-2: 8px;
+$space-3: 12px;
+$space-4: 16px;
+$space-5: 24px;
+$space-6: 32px;
+$space-7: 48px;
+$space-8: 64px;
+$space-9: 96px;
+
+$container: 1200px;
+$border-width: 1px;
+$transition: 120ms steps(3, end);
+
+$bp-sm: 640px;
+$bp-md: 900px;
+
+@mixin up($bp) {
+  @media (min-width: $bp) {
+    @content;
+  }
+}
+
+// Small uppercase monospace label, e.g. "[01] COURSES".
+@mixin mono-label {
+  font-family: $font-mono;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@mixin focus-ring {
+  outline: 1px solid $fg;
+  outline-offset: 3px;
+}
