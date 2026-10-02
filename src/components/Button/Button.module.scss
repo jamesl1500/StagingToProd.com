@@ -1,0 +1,58 @@
+@use 'tokens' as *;
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+  height: 44px;
+  padding: 0 $space-5;
+  border: $border-width solid $fg;
+  border-radius: 0;
+  font-family: $font-mono;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color $transition,
+    color $transition,
+    border-color $transition;
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+}
+
+.primary {
+  background: $fg;
+  color: $bg;
+
+  &:hover {
+    background: $bg;
+    color: $fg;
+  }
+}
+
+.outline {
+  background: transparent;
+  color: $fg;
+  border-color: $border-strong;
+
+  &:hover {
+    border-color: $fg;
+  }
+}
+
+.ghost {
+  background: transparent;
+  color: $muted;
+  border-color: transparent;
+
+  &:hover {
+    color: $fg;
+  }
+}
