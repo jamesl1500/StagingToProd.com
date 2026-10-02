@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState, useState } from 'react'
+import { startTransition, useActionState, useState, type FormEvent } from 'react'
 
 import { saveGoals, type StepState } from '@/app/(frontend)/onboarding/actions'
 import { Button } from '@/components/Button'
@@ -20,14 +20,21 @@ export function GoalsStep({
   defaults: { experience: Experience | null; goals: Goal[]; goalNote: string }
 }) {
   const [state, action, pending] = useActionState<StepState, FormData>(saveGoals, { status: 'idle' })
-  // Controlled so a validation error doesn't clear choices (React resets uncontrolled form fields after an action).
   const [note, setNote] = useState(defaults.goalNote)
   const [experience, setExperience] = useState<string>(defaults.experience ?? '')
   const [goals, setGoals] = useState<string[]>(defaults.goals)
   const errors = state.fieldErrors ?? {}
 
+  // Submit by hand instead of <form action>: React resets the form after an action,
+  // which would wipe the learner's answers when the server sends back a validation error.
+  function submit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    const data = new FormData(e.currentTarget)
+    startTransition(() => action(data))
+  }
+
   return (
-    <form action={action} className={styles.form} noValidate>
+    <form onSubmit={submit} className={styles.form} noValidate>
       <input type="hidden" name="next" value={next} />
 
       <fieldset className={styles.fieldset} aria-describedby={errors.experience ? 'experience-error' : undefined}>
