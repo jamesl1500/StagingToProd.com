@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState, useState } from 'react'
+import { startTransition, useActionState, useState, type FormEvent } from 'react'
 
 import { saveProfile, type StepState } from '@/app/(frontend)/onboarding/actions'
 import { Button } from '@/components/Button'
@@ -12,10 +12,12 @@ import styles from './Onboarding.module.scss'
 export function ProfileStep({
   userId,
   next,
+  submitLabel,
   defaults,
 }: {
   userId: string
   next: string
+  submitLabel: string
   defaults: { displayName: string; bio: string; avatarPath: string | null }
 }) {
   const [state, action, pending] = useActionState<StepState, FormData>(saveProfile, { status: 'idle' })
@@ -23,8 +25,16 @@ export function ProfileStep({
   const [bio, setBio] = useState(defaults.bio)
   const errors = state.fieldErrors ?? {}
 
+  // Submit by hand instead of <form action>: React resets the form after an action,
+  // which would wipe the learner's answers when the server sends back a validation error.
+  function submit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    const data = new FormData(e.currentTarget)
+    startTransition(() => action(data))
+  }
+
   return (
-    <form action={action} className={styles.form} noValidate>
+    <form onSubmit={submit} className={styles.form} noValidate>
       <input type="hidden" name="next" value={next} />
 
       <AvatarUpload userId={userId} initialPath={defaults.avatarPath} name={name} error={errors.avatar_path} />
@@ -88,7 +98,7 @@ export function ProfileStep({
 
       <div className={styles.actions}>
         <Button type="submit" disabled={pending}>
-          {pending ? 'Saving...' : 'Continue'}
+          {pending ? 'Saving...' : submitLabel}
         </Button>
       </div>
     </form>
