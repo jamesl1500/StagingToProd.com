@@ -13,7 +13,22 @@ describe('safeNext', () => {
     expect(safeNext('/courses/ts/generics?x=1')).toBe('/courses/ts/generics?x=1')
   })
 
-  it.each([null, undefined, '', 'https://evil.com', '//evil.com', '/\\evil.com', 'javascript:alert(1)'])(
+  it('normalizes dot segments but stays on the site', () => {
+    expect(safeNext('/a/../courses')).toBe('/courses')
+  })
+
+  it.each([
+    null,
+    undefined,
+    '',
+    ['/a', '/b'],
+    'https://evil.com',
+    '//evil.com',
+    '/\\evil.com',
+    '/\t/evil.com',
+    '/\n/evil.com',
+    'javascript:alert(1)',
+  ])(
     'falls back for %s',
     (next) => {
       expect(safeNext(next)).toBe('/account')
@@ -30,7 +45,7 @@ describe('canAccessLesson', () => {
 })
 
 let payload: Payload
-const created: { courseId?: number } = {}
+const created: { courseId?: number; draftCourseId?: number } = {}
 const slug = 'public-site-test-course'
 
 const body = (text: string): Lesson['body'] => ({
@@ -79,13 +94,35 @@ describe('public content queries', () => {
     await lesson({ title: 'Zebra intro', isFree: true, body: body('free notes') })
     await lesson({ title: 'Zebra deep dive', body: body('paid notes') })
     await lesson({ title: 'Zebra draft', _status: 'draft' })
+
+    // A published lesson inside a draft course must not show up anywhere.
+    const draftCourse = await payload.create({
+      collection: 'courses',
+      data: {
+        title: 'Public Site Draft Course',
+        slug: `${slug}-draft`,
+        summary: 'Draft course for the public site test.',
+        language: 'go',
+        level: 'beginner',
+        priceMode: 'free',
+        _status: 'draft',
+      } as RequiredDataFromCollectionSlug<'courses'>,
+    })
+    created.draftCourseId = draftCourse.id
+    const draftMod = await payload.create({ collection: 'modules', data: { title: 'Hidden', course: draftCourse.id } })
+    await payload.create({
+      collection: 'lessons',
+      data: { module: draftMod.id, title: 'Zebra hidden', _status: 'published' } as RequiredDataFromCollectionSlug<'lessons'>,
+    })
   })
 
   afterAll(async () => {
-    if (!created.courseId) return
-    await payload.delete({ collection: 'lessons', where: { course: { equals: created.courseId } } })
-    await payload.delete({ collection: 'modules', where: { course: { equals: created.courseId } } })
-    await payload.delete({ collection: 'courses', id: created.courseId })
+    for (const id of [created.courseId, created.draftCourseId]) {
+      if (!id) continue
+      await payload.delete({ collection: 'lessons', where: { course: { equals: id } } })
+      await payload.delete({ collection: 'modules', where: { course: { equals: id } } })
+      await payload.delete({ collection: 'courses', id })
+    }
   })
 
   it('builds the outline from published lessons, in order, with locks', async () => {
@@ -112,9 +149,11 @@ describe('public content queries', () => {
     expect(data?.prev?.slug).toBe('zebra-intro')
   })
 
-  it('does not find drafts', async () => {
+  it('does not find drafts or lessons in draft courses', async () => {
     expect(await getLesson(slug, 'zebra-draft')).toBeNull()
-    const results = await searchLessons('Zebra')
+    expect(await getCourseBySlug(`${slug}-draft`)).toBeNull()
+    // limit 2: the draft course's lesson must not take one of the slots.
+    const results = await searchLessons('Zebra', 2)
     expect(results.map((l) => l.slug).sort()).toEqual(['zebra-deep-dive', 'zebra-intro'])
   })
 })
