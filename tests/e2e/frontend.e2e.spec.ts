@@ -15,6 +15,6 @@ test.describe('Frontend', () => {
 
     const heading = page.locator('h1').first()
 
-    await expect(heading).toHaveText('Learn to code. Ship like a software engineer.')
+    await expect(heading).toHaveText('Learn to code. Ship to prod.')
   })
 })

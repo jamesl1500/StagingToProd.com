@@ -1,0 +1,173 @@
+@use 'tokens' as *;
+
+.main {
+  max-width: $container;
+  margin: 0 auto;
+  padding: 0 $space-4;
+
+  @include up($bp-sm) {
+    padding: 0 $space-6;
+  }
+}
+
+.hero {
+  display: grid;
+  gap: $space-5;
+  padding: $space-9 0 $space-8;
+  border-bottom: $border-width solid $border;
+}
+
+.eyebrow {
+  @include mono-label;
+  color: $muted;
+}
+
+.title {
+  max-width: 14ch;
+  font-size: clamp(40px, 8vw, 88px);
+}
+
+.cursor {
+  display: inline-block;
+  width: 0.5ch;
+  height: 0.85em;
+  margin-left: 0.1em;
+  background: $fg;
+  vertical-align: baseline;
+  animation: blink 1s steps(1, end) infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.lead {
+  max-width: 56ch;
+  color: $muted;
+  font-size: 18px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-3;
+  padding-top: $space-3;
+}
+
+.section {
+  padding: $space-8 0;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: $space-4;
+  margin-bottom: $space-5;
+}
+
+.sectionTitle {
+  font-size: 28px;
+}
+
+.count {
+  @include mono-label;
+  color: $muted;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: $border-width solid $border;
+  border-left: $border-width solid $border;
+
+  @include up($bp-sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include up($bp-md) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  display: grid;
+  align-content: start;
+  gap: $space-3;
+  min-height: 220px;
+  padding: $space-5;
+  border-right: $border-width solid $border;
+  border-bottom: $border-width solid $border;
+  background: $surface;
+  transition: background-color $transition;
+
+  &:hover {
+    background: #111;
+  }
+}
+
+.cardIndex {
+  @include mono-label;
+  color: $muted;
+}
+
+.cardTitle {
+  font-size: 22px;
+}
+
+.cardSummary {
+  color: $muted;
+  font-size: 15px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+  margin-top: auto;
+  padding-top: $space-3;
+}
+
+.tag {
+  @include mono-label;
+  padding: 2px $space-2;
+  border: $border-width solid $border-strong;
+  font-size: 11px;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: $border-width solid $border;
+  border-left: $border-width solid $border;
+
+  @include up($bp-md) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.step {
+  display: grid;
+  align-content: start;
+  gap: $space-3;
+  padding: $space-5;
+  border-right: $border-width solid $border;
+  border-bottom: $border-width solid $border;
+}
+
+.empty {
+  padding: $space-7 $space-5;
+  border: $border-width dashed $border-strong;
+  color: $muted;
+  font-family: $font-mono;
+  font-size: 14px;
+}
