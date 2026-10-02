@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
 import { PageHeader } from '@/components/PageHeader'
+import { firstParam, type SearchParams } from '@/lib/params'
 
 export const metadata: Metadata = { title: 'Sign-in problem', robots: { index: false } }
 
@@ -13,8 +14,8 @@ const messages: Record<string, string> = {
   config: 'Sign-in is not configured on this site yet.',
 }
 
-export default async function AuthErrorPage({ searchParams }: { searchParams: Promise<{ reason?: string }> }) {
-  const { reason } = await searchParams
+export default async function AuthErrorPage({ searchParams }: { searchParams: SearchParams }) {
+  const reason = firstParam((await searchParams).reason)
   return (
     <Container>
       <PageHeader
