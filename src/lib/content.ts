@@ -17,7 +17,8 @@ export type CourseFilters = {
   level?: Course['level']
 }
 
-export async function getCourses({ q, language, level }: CourseFilters = {}, limit = 60) {
+/** Published courses, newest first. Leave `limit` out to get every match (the catalog page). */
+export async function getCourses({ q, language, level }: CourseFilters = {}, limit?: number) {
   const and: Where[] = [published]
   if (q) {
     and.push({
@@ -32,7 +33,7 @@ export async function getCourses({ q, language, level }: CourseFilters = {}, lim
     where: { and },
     sort: '-createdAt',
     depth: 1,
-    limit,
+    ...(limit ? { limit } : { pagination: false }),
   })
   return docs
 }
@@ -159,14 +160,19 @@ export async function searchLessons(q: string, limit = 20) {
   const { docs } = await (await payload()).find({
     collection: 'lessons',
     where: {
-      and: [published, { or: [{ title: { like: q } }, { summary: { like: q } }] }],
+      and: [
+        published,
+        // Filter on the course in the query so drafts can't use up the limit.
+        { 'course._status': { equals: 'published' } },
+        { or: [{ title: { like: q } }, { summary: { like: q } }] },
+      ],
     },
     depth: 1,
     limit,
     overrideAccess: true,
     select: { title: true, slug: true, summary: true, isFree: true, course: true },
   })
-  // Only lessons whose course is published.
+  // Also narrows `course` to a populated, published Course for callers.
   return docs.filter(
     (l): l is typeof l & { course: Course } =>
       typeof l.course === 'object' && l.course?._status === 'published',

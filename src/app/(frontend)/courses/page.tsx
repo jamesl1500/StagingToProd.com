@@ -8,6 +8,7 @@ import { PageHeader } from '@/components/PageHeader'
 import { SearchForm } from '@/components/SearchForm'
 import { getCourses } from '@/lib/content'
 import { languageLabels, levelLabels } from '@/lib/format'
+import { firstParam, type SearchParams } from '@/lib/params'
 import type { Course } from '@/payload-types'
 
 import styles from './page.module.scss'
@@ -27,12 +28,14 @@ const isLevel = (v?: string): v is Course['level'] => !!v && v in levelLabels
 export default async function CoursesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; language?: string; level?: string }>
+  searchParams: SearchParams
 }) {
   const sp = await searchParams
-  const q = sp.q?.trim().slice(0, 100) || undefined
-  const language = isLanguage(sp.language) ? sp.language : undefined
-  const level = isLevel(sp.level) ? sp.level : undefined
+  const q = firstParam(sp.q)?.trim().slice(0, 100) || undefined
+  const languageParam = firstParam(sp.language)
+  const levelParam = firstParam(sp.level)
+  const language = isLanguage(languageParam) ? languageParam : undefined
+  const level = isLevel(levelParam) ? levelParam : undefined
 
   const courses = await getCourses({ q, language, level })
   const filtered = Boolean(q || language || level)
