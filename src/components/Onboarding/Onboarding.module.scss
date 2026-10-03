@@ -1,0 +1,385 @@
+@use 'tokens' as *;
+
+// Page shell
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $space-6;
+  padding: $space-7 0 $space-8;
+
+  @include up($bp-md) {
+    grid-template-columns: 340px minmax(0, 1fr);
+    gap: $space-8;
+    align-items: start;
+  }
+}
+
+.intro {
+  display: grid;
+  gap: $space-4;
+
+  @include up($bp-md) {
+    position: sticky;
+    top: 96px;
+  }
+}
+
+.eyebrow {
+  @include mono-label;
+  color: $muted;
+}
+
+.title {
+  font-size: clamp(32px, 5vw, 48px);
+}
+
+.lead {
+  color: $muted;
+}
+
+.steps {
+  display: grid;
+  margin: $space-3 0 0;
+  padding: 0;
+  border: $border-width solid $border;
+  list-style: none;
+}
+
+.step {
+  @include mono-label;
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  padding: $space-3 $space-4;
+  color: $muted;
+
+  & + & {
+    border-top: $border-width solid $border;
+  }
+
+  &[aria-current='step'] {
+    background: $fg;
+    color: $bg;
+  }
+}
+
+.stepDone {
+  color: $fg;
+}
+
+.stepMark {
+  margin-left: auto;
+}
+
+.panel {
+  padding: $space-5;
+  border: $border-width solid $border-strong;
+  background: $surface;
+
+  @include up($bp-sm) {
+    padding: $space-6;
+  }
+}
+
+// Form
+
+.form {
+  display: grid;
+  gap: $space-6;
+}
+
+.field,
+.fieldset {
+  display: grid;
+  gap: $space-2;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.label {
+  @include mono-label;
+  padding: 0;
+  color: $muted;
+  font-size: 11px;
+}
+
+.labelRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: $space-3;
+}
+
+.optional {
+  margin-left: $space-2;
+  color: $border-strong;
+}
+
+.counter {
+  color: $muted;
+  font-family: $font-mono;
+  font-size: 11px;
+}
+
+.hint {
+  color: $muted;
+  font-size: 13px;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  border: $border-width solid $border-strong;
+  border-radius: 0;
+  background: $bg;
+  color: $fg;
+  font-family: $font-mono;
+  font-size: 14px;
+
+  &:focus {
+    border-color: $fg;
+    outline: none;
+  }
+
+  &[aria-invalid='true'] {
+    border-color: $fg;
+    border-style: dashed;
+  }
+}
+
+.input {
+  height: 44px;
+  padding: 0 $space-3;
+}
+
+.textarea {
+  padding: $space-3;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.fieldError {
+  font-family: $font-mono;
+  font-size: 12px;
+
+  &::before {
+    content: '! ';
+  }
+}
+
+.formError {
+  padding: $space-2 $space-3;
+  border: $border-width dashed $fg;
+  font-family: $font-mono;
+  font-size: 13px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: $space-3;
+  padding-top: $space-5;
+  border-top: $border-width solid $border;
+}
+
+// Avatar
+
+.avatarField {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-5;
+}
+
+.avatarControls {
+  display: grid;
+  gap: $space-2;
+  min-width: 0;
+}
+
+.avatarButtons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-4;
+  padding-top: $space-1;
+}
+
+.fileButton {
+  @include mono-label;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 $space-4;
+  border: $border-width solid $border-strong;
+  font-size: 11px;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $fg;
+  }
+
+  &:focus-within {
+    @include focus-ring;
+  }
+}
+
+.busy {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.fileInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.textButton {
+  @include mono-label;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: $muted;
+  font-size: 11px;
+  cursor: pointer;
+
+  &:hover {
+    color: $fg;
+  }
+}
+
+// Choice cards (radio and checkbox)
+
+.options {
+  display: grid;
+  gap: $space-2;
+  padding-top: $space-1;
+}
+
+.optionsGrid {
+  @include up($bp-sm) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.option {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: $space-3;
+  padding: $space-3 $space-4;
+  border: $border-width solid $border;
+  background: $bg;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $border-strong;
+  }
+
+  &:has(.control:checked) {
+    border-color: $fg;
+
+    .check {
+      background: $fg;
+
+      &::after {
+        content: 'x';
+      }
+    }
+
+    .optionIndex {
+      color: $fg;
+    }
+  }
+
+  &:has(.control:focus-visible) {
+    @include focus-ring;
+  }
+}
+
+.control {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.optionIndex {
+  padding-top: 2px;
+  color: $muted;
+  font-family: $font-mono;
+  font-size: 12px;
+}
+
+.check {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
+  border: $border-width solid $border-strong;
+  color: $bg;
+  font-family: $font-mono;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.optionText {
+  display: grid;
+  gap: 2px;
+}
+
+.optionLabel {
+  font-weight: 600;
+}
+
+.optionHint {
+  color: $muted;
+  font-size: 13px;
+}
+
+// Done
+
+.done {
+  display: grid;
+  gap: $space-5;
+}
+
+.who {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+}
+
+.whoName {
+  font-family: $font-display;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.whoBio {
+  color: $muted;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+}
+
+.log {
+  padding: $space-4;
+  border: $border-width solid $border;
+  background: $bg;
+  color: $muted;
+  font-family: $font-mono;
+  font-size: 13px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}

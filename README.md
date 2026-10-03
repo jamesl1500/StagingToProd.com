@@ -82,7 +82,8 @@ src/
 | `/courses/[slug]/[lesson]` | Mux player, lesson notes with highlighted code and callouts, outline sidebar, previous and next |
 | `/search?q=` | Matching courses and lessons |
 | `/login`, `/signup` | GitHub or email magic link sign in |
-| `/account` | Signed-in learner's profile and sign out (redirects to `/login` when signed out) |
+| `/onboarding` | New learners: profile (avatar, name, bio), then goals and experience |
+| `/account` | Profile, edit links and sign out (signed-out learners go to `/login`, new ones to `/onboarding`) |
 
 A lesson is open when it is marked **Free preview** or its course's price mode is **Free**. Every other lesson shows a locked panel; its notes and video never leave the server. Paid access is milestone 4.
 
@@ -100,6 +101,28 @@ Learners sign in with GitHub or a magic link; there are no passwords. Admins kee
 3. Email magic links work out of the box with Supabase's built-in mailer, which is rate limited. Add your own SMTP (for example Resend) under **Authentication > Emails** before launch.
 
 Without `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` the site still runs; the sign-in buttons say that auth is not configured yet.
+
+## Learner onboarding and profiles
+
+After a learner signs in or confirms their email for the first time, `/auth/callback` and `/auth/confirm` send them to `/onboarding`:
+
+1. **Profile**: avatar, display name (prefilled from GitHub when available) and an optional bio.
+2. **Goals**: where they are now, what they want (pick any) and an optional note in their own words.
+3. **Ready**: a summary, then on to wherever they were going.
+
+Profiles live in Supabase (`public.profiles`), not Payload. Row Level Security lets a learner read and change only their own row. Avatars upload from the browser straight to the public `avatars` Storage bucket, cropped to a 512px square WebP, and a learner can only write inside their own `<user id>/` folder.
+
+### Apply the database migration
+
+The schema is in `supabase/migrations/`. Apply it once to your Supabase project:
+
+```bash
+npx supabase login
+npx supabase link --project-ref qxafrrtbolqbfhvsyhcl
+npx supabase db push
+```
+
+Or paste the migration file into the Supabase SQL editor and run it.
 
 ## Styling
 

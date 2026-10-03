@@ -84,3 +84,24 @@
     color: $bg;
   }
 }
+
+.me {
+  @include mono-label;
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  color: $muted;
+  text-decoration: none;
+
+  &:hover {
+    color: $fg;
+  }
+}
+
+.meLabel {
+  display: none;
+
+  @include up($bp-sm) {
+    display: inline;
+  }
+}

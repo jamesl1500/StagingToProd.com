@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 
 import { safeNext } from '@/lib/supabase/auth'
+import { landingAfterSignIn } from '@/lib/profile'
 import { isSupabaseConfigured } from '@/lib/supabase/env'
 import { createClient } from '@/lib/supabase/server'
 
@@ -13,8 +14,11 @@ export async function GET(request: NextRequest) {
 
   if (code && isSupabaseConfigured) {
     const supabase = await createClient()
-    const { error } = await supabase.auth.exchangeCodeForSession(code, flowId ? { flowId } : undefined)
-    if (!error) return NextResponse.redirect(`${origin}${next}`)
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code, flowId ? { flowId } : undefined)
+    if (!error && data.user) {
+      // New learners finish onboarding first, then carry on to `next`.
+      return NextResponse.redirect(`${origin}${await landingAfterSignIn(supabase, data.user.id, next)}`)
+    }
   }
 
   return NextResponse.redirect(`${origin}/auth/error?reason=callback`)
