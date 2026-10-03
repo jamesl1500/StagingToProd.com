@@ -1,25 +1,12 @@
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
-
 import { Button } from '@/components/Button'
-import type { Course } from '@/payload-types'
+import { CourseCard, CourseGrid } from '@/components/CourseCard'
+import { getCourses } from '@/lib/content'
+import { pad } from '@/lib/format'
 
 import styles from './page.module.scss'
 
 // Reads published courses from the CMS on every request.
 export const dynamic = 'force-dynamic'
-
-const languageLabels: Record<Course['language'], string> = {
-  javascript: 'JavaScript',
-  typescript: 'TypeScript',
-  python: 'Python',
-  go: 'Go',
-  rust: 'Rust',
-  java: 'Java',
-  csharp: 'C#',
-  sql: 'SQL',
-  general: 'Career',
-}
 
 const steps = [
   { title: 'Learn', body: 'Short video lessons with written notes and code you can copy.' },
@@ -28,14 +15,7 @@ const steps = [
 ]
 
 export default async function HomePage() {
-  const payload = await getPayload({ config: configPromise })
-  const { docs: courses } = await payload.find({
-    collection: 'courses',
-    where: { _status: { equals: 'published' } },
-    sort: '-createdAt',
-    depth: 0,
-    limit: 12,
-  })
+  const courses = await getCourses({}, 6)
 
   return (
     <main className={styles.main}>
@@ -50,7 +30,7 @@ export default async function HomePage() {
           software engineer.
         </p>
         <div className={styles.actions}>
-          <Button href="#courses">Browse courses</Button>
+          <Button href="/courses">Browse courses</Button>
           <Button href="#about" variant="outline">
             How it works
           </Button>
@@ -59,29 +39,20 @@ export default async function HomePage() {
 
       <section id="courses" className={styles.section}>
         <div className={styles.sectionHead}>
-          <h2 className={styles.sectionTitle}>Courses</h2>
-          <span className={styles.count}>
-            [{String(courses.length).padStart(2, '0')}] available
-          </span>
+          <h2 className={styles.sectionTitle}>Latest courses</h2>
+          <Button href="/courses" variant="ghost">
+            All courses -&gt;
+          </Button>
         </div>
 
         {courses.length === 0 ? (
           <p className={styles.empty}>&gt; No courses published yet. Check back soon.</p>
         ) : (
-          <div className={styles.grid}>
+          <CourseGrid>
             {courses.map((course, i) => (
-              <article key={course.id} className={styles.card}>
-                <span className={styles.cardIndex}>[{String(i + 1).padStart(2, '0')}]</span>
-                <h3 className={styles.cardTitle}>{course.title}</h3>
-                <p className={styles.cardSummary}>{course.summary}</p>
-                <div className={styles.tags}>
-                  <span className={styles.tag}>{languageLabels[course.language]}</span>
-                  <span className={styles.tag}>{course.level}</span>
-                  {course.priceMode === 'free' && <span className={styles.tag}>Free</span>}
-                </div>
-              </article>
+              <CourseCard key={course.id} course={course} index={i + 1} />
             ))}
-          </div>
+          </CourseGrid>
         )}
       </section>
 
@@ -92,7 +63,7 @@ export default async function HomePage() {
         <ol className={styles.steps}>
           {steps.map((step, i) => (
             <li key={step.title} className={styles.step}>
-              <span className={styles.cardIndex}>[{String(i + 1).padStart(2, '0')}]</span>
+              <span className={styles.cardIndex}>{pad(i + 1)}</span>
               <h3 className={styles.cardTitle}>{step.title}</h3>
               <p className={styles.cardSummary}>{step.body}</p>
             </li>

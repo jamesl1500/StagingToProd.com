@@ -1,0 +1,81 @@
+@use 'tokens' as *;
+
+.card {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: $space-3;
+  min-height: 240px;
+  padding: $space-5;
+  border-right: $border-width solid $border;
+  border-bottom: $border-width solid $border;
+  background: $surface;
+  text-decoration: none;
+  transition: background-color $transition;
+
+  &:hover {
+    background: #111;
+
+    .arrow {
+      transform: translateX(4px);
+      color: $fg;
+    }
+  }
+}
+
+.cover {
+  aspect-ratio: 16 / 9;
+  margin: (-$space-5) (-$space-5) $space-2;
+  border-bottom: $border-width solid $border;
+  background: #000 center / cover no-repeat;
+  filter: grayscale(1) contrast(1.1);
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.index {
+  @include mono-label;
+  color: $muted;
+}
+
+.arrow {
+  font-family: $font-mono;
+  color: $muted;
+  transition: transform $transition;
+}
+
+.title {
+  font-size: 22px;
+}
+
+.summary {
+  color: $muted;
+  font-size: 15px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+  margin-top: auto;
+  padding-top: $space-3;
+}
+
+// Grid wrapper that draws shared borders between cards.
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: $border-width solid $border;
+  border-left: $border-width solid $border;
+
+  @include up($bp-sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include up($bp-md) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

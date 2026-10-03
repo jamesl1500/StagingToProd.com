@@ -1,0 +1,39 @@
+@use 'tokens' as *;
+
+.callout {
+  display: grid;
+  gap: $space-2;
+  margin: $space-5 0;
+  padding: $space-4 $space-5;
+  border: $border-width solid $border-strong;
+  border-left-width: 4px;
+  background: $surface;
+}
+
+.label {
+  @include mono-label;
+  color: $muted;
+}
+
+.title {
+  font-weight: 600;
+}
+
+.content {
+  color: #d4d4d4;
+  white-space: pre-line;
+}
+
+.tip {
+  border-left-color: $fg;
+}
+
+.warning {
+  border-style: dashed;
+  border-left-style: solid;
+  border-left-color: $fg;
+
+  .label {
+    color: $fg;
+  }
+}

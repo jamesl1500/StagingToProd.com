@@ -1,0 +1,39 @@
+@use 'tokens' as *;
+
+.toolbar {
+  display: grid;
+  gap: $space-5;
+  padding: $space-6 0;
+  border-bottom: $border-width solid $border;
+}
+
+.results {
+  display: flex;
+  justify-content: space-between;
+  gap: $space-3;
+  padding: $space-5 0 $space-4;
+}
+
+.count {
+  @include mono-label;
+  color: $muted;
+}
+
+.clear {
+  @include mono-label;
+  color: $muted;
+
+  &:hover {
+    color: $fg;
+  }
+}
+
+.empty {
+  display: grid;
+  gap: $space-3;
+  padding: $space-7 $space-5;
+  border: $border-width dashed $border-strong;
+  color: $muted;
+  font-family: $font-mono;
+  font-size: 14px;
+}

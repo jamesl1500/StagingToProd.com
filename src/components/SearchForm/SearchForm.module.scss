@@ -1,0 +1,65 @@
+@use 'tokens' as *;
+
+.form {
+  display: flex;
+  align-items: stretch;
+  border: $border-width solid $border-strong;
+  background: $bg;
+
+  &:focus-within {
+    border-color: $fg;
+  }
+}
+
+.prompt {
+  display: flex;
+  align-items: center;
+  padding-left: $space-3;
+  font-family: $font-mono;
+  color: $muted;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  padding: $space-3;
+  border: 0;
+  background: transparent;
+  color: $fg;
+  font-family: $font-mono;
+  font-size: 14px;
+
+  &::placeholder {
+    color: $muted;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.submit {
+  @include mono-label;
+  padding: 0 $space-4;
+  border: 0;
+  border-left: $border-width solid $border-strong;
+  background: transparent;
+  color: $fg;
+  cursor: pointer;
+
+  &:hover {
+    background: $fg;
+    color: $bg;
+  }
+}
+
+.small {
+  .input {
+    padding: $space-2;
+    font-size: 13px;
+  }
+
+  .submit {
+    display: none;
+  }
+}

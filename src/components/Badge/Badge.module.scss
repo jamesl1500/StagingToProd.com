@@ -1,0 +1,24 @@
+@use 'tokens' as *;
+
+.badge {
+  @include mono-label;
+  display: inline-flex;
+  align-items: center;
+  gap: $space-1;
+  padding: 2px $space-2;
+  border: $border-width solid $border-strong;
+  font-size: 11px;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+
+.solid {
+  border-color: $fg;
+  background: $fg;
+  color: $bg;
+}
+
+.muted {
+  border-color: $border;
+  color: $muted;
+}

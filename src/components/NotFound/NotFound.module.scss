@@ -1,0 +1,37 @@
+@use 'tokens' as *;
+
+.wrap {
+  display: grid;
+  gap: $space-5;
+  max-width: 640px;
+  padding: $space-9 0;
+}
+
+.code {
+  @include mono-label;
+  color: $muted;
+}
+
+.title {
+  font-size: clamp(32px, 6vw, 56px);
+}
+
+.log {
+  padding: $space-4;
+  border: $border-width solid $border;
+  background: $surface;
+  color: $muted;
+  font-family: $font-mono;
+  font-size: 13px;
+  white-space: pre-wrap;
+}
+
+.lead {
+  color: $muted;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-3;
+}

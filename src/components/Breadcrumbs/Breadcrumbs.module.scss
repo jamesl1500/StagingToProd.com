@@ -1,0 +1,34 @@
+@use 'tokens' as *;
+
+.list {
+  @include mono-label;
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: $muted;
+}
+
+.item {
+  display: flex;
+  gap: $space-2;
+
+  &:not(:last-child)::after {
+    content: '/';
+    color: $border-strong;
+  }
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      color: $fg;
+    }
+  }
+
+  &[aria-current='page'] {
+    color: $fg;
+  }
+}
